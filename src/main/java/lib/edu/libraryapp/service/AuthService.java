@@ -26,15 +26,13 @@ public class AuthService {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final AuthenticationManager authenticationManager;
 
 
-    public AuthService(AuthRepository authRepository, UserRepository userRepository, JwtService jwtService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+    public AuthService(AuthRepository authRepository, UserRepository userRepository, JwtService jwtService, PasswordEncoder passwordEncoder) {
         this.authRepository = authRepository;
         this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
     }
 
     public RegisterResponseDto register(RegisterDto registerDto){

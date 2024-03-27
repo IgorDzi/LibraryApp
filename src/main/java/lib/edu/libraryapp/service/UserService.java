@@ -35,6 +35,10 @@ public class UserService {
                 userEntity.getFullName());
     }
 
-
-
+    public void delete(long id){
+        if(!userRepository.existsById(id)){
+            throw new RuntimeException();
+        }
+        userRepository.deleteById(id);
+    }
 }

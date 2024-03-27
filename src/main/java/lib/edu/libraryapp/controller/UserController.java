@@ -5,6 +5,8 @@ package lib.edu.libraryapp.controller;
 import lib.edu.libraryapp.controller.dto.user.GetUserDto;
 import lib.edu.libraryapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,14 +23,19 @@ public class UserController {
     }
 
     @GetMapping()
-    public List<GetUserDto> getAll(){
+    public List<GetUserDto> getAll() {
         return userService.getAll();
     }
 
     @GetMapping("/{id}")
-    public GetUserDto getOne(@PathVariable long id){
+    public GetUserDto getOne(@PathVariable long id) {
         return userService.getOne(id);
     }
 
-
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> delete(@PathVariable long id) {
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
