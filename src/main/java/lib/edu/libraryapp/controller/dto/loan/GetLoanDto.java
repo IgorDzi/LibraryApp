@@ -1,13 +1,7 @@
 package lib.edu.libraryapp.controller.dto.loan;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
 import lib.edu.libraryapp.infrastructure.entity.BookEntity;
-import lib.edu.libraryapp.infrastructure.entity.LoanEntity;
 import lib.edu.libraryapp.infrastructure.entity.UserEntity;
-
-import java.util.List;
 
 public class GetLoanDto {
 

@@ -1,22 +1,27 @@
-package lib.edu.libraryapp.controller.dto.user;
+package lib.edu.libraryapp.controller.dto.auth;
 
-public class CreateUserDto {
+import jakarta.persistence.*;
+import lib.edu.libraryapp.commonTypes.UserRole;
+import lib.edu.libraryapp.infrastructure.entity.UserEntity;
+
+public class RegisterDto {
 
     private String username;
-    private String password;
-    private String role;
-    private String email;
-    private String fullName;
 
-    public CreateUserDto(String username, String password, String role, String email, String fullName) {
+    private String password;
+
+    private UserRole role;
+
+    private String email;
+
+    public RegisterDto(String username, String password, UserRole role, String email) {
         this.username = username;
         this.password = password;
         this.role = role;
         this.email = email;
-        this.fullName = fullName;
     }
 
-    public CreateUserDto() {
+    public RegisterDto() {
     }
 
     public String getUsername() {
@@ -35,11 +40,11 @@ public class CreateUserDto {
         this.password = password;
     }
 
-    public String getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 
@@ -49,13 +54,5 @@ public class CreateUserDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
     }
 }
