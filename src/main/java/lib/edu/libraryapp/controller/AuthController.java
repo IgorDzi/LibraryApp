@@ -5,7 +5,7 @@ import lib.edu.libraryapp.controller.dto.auth.LoginDto;
 import lib.edu.libraryapp.controller.dto.auth.LoginResponseDto;
 import lib.edu.libraryapp.controller.dto.auth.RegisterDto;
 import lib.edu.libraryapp.controller.dto.auth.RegisterResponseDto;
-import lib.edu.libraryapp.service.AuthService;
+import lib.edu.libraryapp.service.auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

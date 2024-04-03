@@ -3,7 +3,7 @@ package lib.edu.libraryapp.controller;
 
 
 import lib.edu.libraryapp.controller.dto.user.GetUserDto;
-import lib.edu.libraryapp.service.UserService;
+import lib.edu.libraryapp.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

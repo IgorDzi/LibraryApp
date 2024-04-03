@@ -3,7 +3,7 @@ package lib.edu.libraryapp.controller;
 import lib.edu.libraryapp.controller.dto.book.CreateBookDto;
 import lib.edu.libraryapp.controller.dto.book.CreateBookResponseDto;
 import lib.edu.libraryapp.controller.dto.book.GetBookDto;
-import lib.edu.libraryapp.service.BookService;
+import lib.edu.libraryapp.service.book.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,25 +24,25 @@ public class BookController {
     }
 
     @GetMapping()
-    @PreAuthorize("hasAnyRole()")
+    @PreAuthorize("permitAll()")
     public List<GetBookDto> getAllBooks() {
         return bookService.getAll();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole()")
+    @PreAuthorize("permitAll()")
     public GetBookDto getOne(@PathVariable long id){
         return bookService.getOne(id);
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CreateBookResponseDto> create(@RequestBody CreateBookDto book) {
         var newBook = bookService.create(book);
         return new ResponseEntity<>(newBook, HttpStatus.CREATED);
     }
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable long id){
         bookService.delete(id);
         return ResponseEntity.noContent().build();

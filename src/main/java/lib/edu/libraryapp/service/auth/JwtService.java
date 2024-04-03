@@ -1,4 +1,4 @@
-package lib.edu.libraryapp.service;
+package lib.edu.libraryapp.service.auth;
 
 
 import io.jsonwebtoken.Claims;

@@ -1,4 +1,4 @@
-package lib.edu.libraryapp.service;
+package lib.edu.libraryapp.service.book;
 
 
 import lib.edu.libraryapp.controller.dto.book.CreateBookDto;
@@ -6,9 +6,12 @@ import lib.edu.libraryapp.controller.dto.book.CreateBookResponseDto;
 import lib.edu.libraryapp.controller.dto.book.GetBookDto;
 import lib.edu.libraryapp.infrastructure.entity.BookEntity;
 import lib.edu.libraryapp.infrastructure.repository.BookRepository;
+import lib.edu.libraryapp.service.book.error.BookAlreadyExistsException;
+import lib.edu.libraryapp.service.book.error.BookNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,7 +35,7 @@ public class BookService {
                 book.getAvailableCopies() > 0))).collect(Collectors.toList());
     }
     public GetBookDto getOne(long id){
-        var book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));
+        var book = bookRepository.findById(id).orElseThrow(() -> BookNotFoundException.create(id));
         return new GetBookDto(
                 book.getId(),
                 book.getIsbn(),
@@ -43,6 +46,10 @@ public class BookService {
                 book.getAvailableCopies() > 0);
     }
     public CreateBookResponseDto create(CreateBookDto book){
+        Optional<BookEntity> existingBook = bookRepository.findByIsbn(book.getIsbn());
+        if (existingBook.isPresent()){
+            throw BookAlreadyExistsException.create(book.getIsbn());
+        }
         var bookEntity = new BookEntity();
         bookEntity.setAuthor(book.getAuthor());
         bookEntity.setTitle(book.getTitle());
@@ -56,7 +63,7 @@ public class BookService {
 
     public void delete(long id){
         if(!bookRepository.existsById(id)){
-            throw new RuntimeException();
+            throw BookNotFoundException.create(id);
         }
         bookRepository.deleteById(id);
     }
