@@ -73,6 +73,8 @@ public class LoanService {
         loanEntity.setDays(loan.getDays());
 
         LoanEntity newLoan = loanRepository.save(loanEntity);
+        book.setAvailableCopies(book.getAvailableCopies()-1);
+        bookRepository.save(book);
         String returnDueDate = LocalDate.parse(loanEntity.getLoanDate()).plusDays(loanEntity.getDays()).toString();
         return new BeginLoanResponseDto(newLoan.getId(),
                 newLoan.getBook(),
@@ -88,6 +90,9 @@ public class LoanService {
         }
         loanEntity.setReturnDate(LocalDate.now().toString());
         loanRepository.save(loanEntity);
+        BookEntity book = loanEntity.getBook();
+        book.setAvailableCopies(book.getAvailableCopies()+1);
+        bookRepository.save(book);
         return new GetLoanDto(
                 loanEntity.getId(),
                 loanEntity.getBook(),

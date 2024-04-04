@@ -33,16 +33,16 @@ public class BeginLoanResponseDto {
         this.id = id;
     }
 
-    public BookEntity getBook() {
-        return book;
+    public long getBook() {
+        return book.getId();
     }
 
     public void setBook(BookEntity book) {
         this.book = book;
     }
 
-    public UserEntity getUser() {
-        return user;
+    public long getUser() {
+        return user.getId();
     }
 
     public void setUser(UserEntity user) {
