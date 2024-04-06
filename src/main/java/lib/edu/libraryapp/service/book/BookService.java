@@ -4,15 +4,19 @@ package lib.edu.libraryapp.service.book;
 import lib.edu.libraryapp.controller.dto.book.CreateBookDto;
 import lib.edu.libraryapp.controller.dto.book.CreateBookResponseDto;
 import lib.edu.libraryapp.controller.dto.book.GetBookDto;
+import lib.edu.libraryapp.controller.dto.book.SearchForBookDto;
 import lib.edu.libraryapp.infrastructure.entity.BookEntity;
 import lib.edu.libraryapp.infrastructure.repository.BookRepository;
 import lib.edu.libraryapp.service.book.error.BookAlreadyExistsException;
 import lib.edu.libraryapp.service.book.error.BookNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static lib.edu.libraryapp.service.book.BookSpecifications.buildSpecificationFromDto;
 
 @Service
 public class BookService {
@@ -45,8 +49,8 @@ public class BookService {
                 book.getPublicationYear(),
                 book.getAvailableCopies() > 0);
     }
-    public List<GetBookDto> searchBooks(String title, String author, String publisher, Integer publicationYear) {
-        var books = bookRepository.findByOptionalCriteria(title, author, publisher, publicationYear);
+    public List<GetBookDto> searchBooks(SearchForBookDto searchForBookDto) {
+        List<BookEntity> books = bookRepository.findAll(buildSpecificationFromDto(searchForBookDto));
         return  books.stream().map((book -> new GetBookDto(
                 book.getId(),
                 book.getIsbn(),
