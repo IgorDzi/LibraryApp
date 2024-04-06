@@ -39,6 +39,7 @@ public class LoanService {
      * @param loanRepository the loan repository
      * @param bookRepository the book repository
      * @param userRepository the user repository
+     * @param authRepository the auth repository
      */
     @Autowired
     public LoanService(LoanRepository loanRepository, BookRepository bookRepository, UserRepository userRepository, AuthRepository authRepository) {
@@ -81,6 +82,13 @@ public class LoanService {
                 loanEntity.getDays(),
                 loanEntity.getReturnDate());
     }
+
+    /**
+     * Get user loans list.
+     *
+     * @param username the username
+     * @return the list of user loans
+     */
     public List<GetLoanDto> getUserLoans(String username){
         var user = authRepository.findByUsername(username).orElseThrow(() -> UserNotFoundException.create(username));
         var loans = loanRepository.findAllByUserId(user.getId());

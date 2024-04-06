@@ -66,6 +66,12 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Gets me.
+     *
+     * @param principal the principal
+     * @return user information
+     */
     @GetMapping("/me")
     @PreAuthorize("hasAnyRole('ADMIN', 'READER')")
     public ResponseEntity<GetUserDto> getMe(Principal principal) {

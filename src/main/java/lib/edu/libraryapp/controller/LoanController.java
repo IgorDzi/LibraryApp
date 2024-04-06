@@ -40,6 +40,7 @@ public class LoanController {
     public List<GetLoanDto> getAll() {
         return loanService.getAll();
     }
+
     /**
      * Get loan.
      *
@@ -76,6 +77,12 @@ public class LoanController {
         return loanService.endLoan(id);
     }
 
+    /**
+     * Get user loans list.
+     *
+     * @param principal the principal
+     * @return the list of user loans
+     */
     @GetMapping("/me")
     @PreAuthorize("hasAnyRole('ADMIN', 'READER')")
     public List<GetLoanDto> getUserLoans(Principal principal){
