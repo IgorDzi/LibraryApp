@@ -1,19 +1,26 @@
 package lib.edu.libraryapp.controller.dto.auth;
 
-import jakarta.persistence.*;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lib.edu.libraryapp.commonTypes.UserRole;
-import lib.edu.libraryapp.infrastructure.entity.UserEntity;
+
 
 public class RegisterDto {
 
+    @NotBlank(message = "Username is required")
     private String username;
+    @NotBlank(message = "Password is required")
 
     private String password;
 
+    @NotNull(message = "Role is required")
     private UserRole role;
-
+    @NotBlank(message = "Email is required")
+    @Email
     private String email;
-
+    @NotBlank(message = "Full name is required")
     private String fullName;
 
     public RegisterDto(String username, String password, UserRole role, String email, String fullName) {

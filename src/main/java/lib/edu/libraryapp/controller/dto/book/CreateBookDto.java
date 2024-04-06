@@ -1,12 +1,20 @@
 package lib.edu.libraryapp.controller.dto.book;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class CreateBookDto {
 
+    @NotBlank(message = "ISBN is required")
     private String isbn;
+    @NotBlank(message = "Title is required")
     private String title;
+    @NotBlank(message = "Author is required")
     private String author;
+    @NotBlank(message = "Publisher is required")
     private String publisher;
+    @NotBlank(message = "Publication Year is required")
     private int publicationYear;
+    @NotBlank(message = "Number of copies is required")
     private int availableCopies;
 
     public CreateBookDto(String isbn, String title, String author, String publisher, int publicationYear, int availableCopies) {
