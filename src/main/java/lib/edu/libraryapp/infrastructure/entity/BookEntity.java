@@ -43,7 +43,6 @@ public class BookEntity {
 
 
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
-    @Column(name = "loans")
     private List<LoanEntity> loanList;
 
     /**
