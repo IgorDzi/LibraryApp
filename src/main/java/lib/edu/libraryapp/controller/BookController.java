@@ -38,7 +38,7 @@ public class BookController {
      * @return the all books
      */
     @GetMapping()
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("hasAnyRole('ADMIN', 'READER')")
     public List<GetBookDto> getAllBooks() {
         return bookService.getAll();
     }
@@ -50,7 +50,7 @@ public class BookController {
      * @return the get book dto
      */
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'READER')")
     public GetBookDto getOne(@PathVariable long id){
         return bookService.getOne(id);
     }
@@ -62,7 +62,7 @@ public class BookController {
      * @return the response entity
      */
     @GetMapping("/search")
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("hasAnyRole('ADMIN', 'READER')")
     public ResponseEntity<List<GetBookDto>> searchBooks(@RequestBody SearchForBookDto search) {
         List<GetBookDto> books = bookService.searchBooks(search);
         return ResponseEntity.ok(books);

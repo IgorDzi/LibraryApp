@@ -5,10 +5,12 @@ package lib.edu.libraryapp.controller;
 import lib.edu.libraryapp.controller.dto.user.GetUserDto;
 import lib.edu.libraryapp.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -62,5 +64,12 @@ public class UserController {
     public ResponseEntity<Void> delete(@PathVariable long id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/me")
+    @PreAuthorize("hasAnyRole('ADMIN', 'READER')")
+    public ResponseEntity<GetUserDto> getMe(Principal principal) {
+        GetUserDto userDto = userService.getByUsername(principal.getName());
+        return new ResponseEntity<>(userDto,HttpStatus.OK);
     }
 }

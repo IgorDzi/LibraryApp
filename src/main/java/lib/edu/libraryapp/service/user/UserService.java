@@ -2,6 +2,7 @@ package lib.edu.libraryapp.service.user;
 
 
 import lib.edu.libraryapp.controller.dto.user.GetUserDto;
+import lib.edu.libraryapp.infrastructure.repository.AuthRepository;
 import lib.edu.libraryapp.infrastructure.repository.UserRepository;
 import lib.edu.libraryapp.service.user.error.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,12 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final AuthRepository authRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, AuthRepository authRepository) {
         this.userRepository = userRepository;
+        this.authRepository = authRepository;
     }
 
     public List<GetUserDto> getAll(){
@@ -34,6 +37,15 @@ public class UserService {
                 userEntity.getId(),
                 userEntity.getEmail(),
                 userEntity.getFullName());
+    }
+    public GetUserDto getByUsername(String username){
+        var user = authRepository.findByUsername(username).orElseThrow(() -> UserNotFoundException.create(username));
+        var userEntity = user.getUser();
+        return new GetUserDto(
+                userEntity.getId(),
+                userEntity.getEmail(),
+                userEntity.getFullName()
+        );
     }
 
     public void delete(long id){

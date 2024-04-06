@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -39,7 +40,6 @@ public class LoanController {
     public List<GetLoanDto> getAll() {
         return loanService.getAll();
     }
-
     /**
      * Get loan.
      *
@@ -74,6 +74,14 @@ public class LoanController {
     @PreAuthorize("hasRole('ADMIN')")
     public GetLoanDto endLoan(@PathVariable long id){
         return loanService.endLoan(id);
+    }
+
+    @GetMapping("/me")
+    @PreAuthorize("hasAnyRole('ADMIN', 'READER')")
+    public List<GetLoanDto> getUserLoans(Principal principal){
+        String username = principal.getName();
+        return loanService.getUserLoans(username);
+
     }
 
 }

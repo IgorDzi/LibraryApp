@@ -6,6 +6,7 @@ import lib.edu.libraryapp.controller.dto.loan.GetLoanDto;
 import lib.edu.libraryapp.infrastructure.entity.BookEntity;
 import lib.edu.libraryapp.infrastructure.entity.LoanEntity;
 import lib.edu.libraryapp.infrastructure.entity.UserEntity;
+import lib.edu.libraryapp.infrastructure.repository.AuthRepository;
 import lib.edu.libraryapp.infrastructure.repository.BookRepository;
 import lib.edu.libraryapp.infrastructure.repository.LoanRepository;
 import lib.edu.libraryapp.infrastructure.repository.UserRepository;
@@ -30,6 +31,7 @@ public class LoanService {
     private final LoanRepository loanRepository;
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
+    private final AuthRepository authRepository;
 
     /**
      * Instantiates a new Loan service.
@@ -39,10 +41,11 @@ public class LoanService {
      * @param userRepository the user repository
      */
     @Autowired
-    public LoanService(LoanRepository loanRepository, BookRepository bookRepository, UserRepository userRepository) {
+    public LoanService(LoanRepository loanRepository, BookRepository bookRepository, UserRepository userRepository, AuthRepository authRepository) {
         this.loanRepository = loanRepository;
         this.bookRepository = bookRepository;
         this.userRepository = userRepository;
+        this.authRepository = authRepository;
     }
 
     /**
@@ -77,6 +80,18 @@ public class LoanService {
                 loanEntity.getLoanDate(),
                 loanEntity.getDays(),
                 loanEntity.getReturnDate());
+    }
+    public List<GetLoanDto> getUserLoans(String username){
+        var user = authRepository.findByUsername(username).orElseThrow(() -> UserNotFoundException.create(username));
+        var loans = loanRepository.findAllByUserId(user.getId());
+        return loans.stream().map((loanEntity -> new GetLoanDto(
+                loanEntity.getId(),
+                loanEntity.getBook(),
+                loanEntity.getUser(),
+                loanEntity.getLoanDate(),
+                loanEntity.getDays(),
+                loanEntity.getReturnDate()
+        ))).collect(Collectors.toList());
     }
 
     /**

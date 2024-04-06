@@ -5,12 +5,14 @@ import lib.edu.libraryapp.controller.dto.auth.LoginDto;
 import lib.edu.libraryapp.controller.dto.auth.LoginResponseDto;
 import lib.edu.libraryapp.controller.dto.auth.RegisterDto;
 import lib.edu.libraryapp.controller.dto.auth.RegisterResponseDto;
+import lib.edu.libraryapp.controller.dto.user.GetUserDto;
 import lib.edu.libraryapp.infrastructure.entity.AuthEntity;
 import lib.edu.libraryapp.infrastructure.entity.UserEntity;
 import lib.edu.libraryapp.infrastructure.repository.AuthRepository;
 import lib.edu.libraryapp.infrastructure.repository.UserRepository;
 import lib.edu.libraryapp.service.auth.error.UserAlreadyExistsException;
 import lib.edu.libraryapp.service.auth.error.WrongUsernameOrPasswordException;
+import lib.edu.libraryapp.service.user.error.UserNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -80,7 +82,7 @@ public class AuthService {
      * @return the login response dto
      */
     public LoginResponseDto login(LoginDto loginDto) {
-        AuthEntity authEntity = authRepository.findByUsername(loginDto.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+        AuthEntity authEntity = authRepository.findByUsername(loginDto.getUsername()).orElseThrow(WrongUsernameOrPasswordException::create);
 
         if (!passwordEncoder.matches(loginDto.getPassword(), authEntity.getPassword())) {
             throw WrongUsernameOrPasswordException.create();
@@ -89,5 +91,6 @@ public class AuthService {
             String token = jwtService.generateToken(authEntity);
             return new LoginResponseDto(token);
         }
+
     }
 

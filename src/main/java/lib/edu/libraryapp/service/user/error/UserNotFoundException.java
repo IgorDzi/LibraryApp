@@ -12,4 +12,8 @@ public class UserNotFoundException extends  RuntimeException{
         UserNotFoundException exception = new UserNotFoundException(String.format("User with id: %s not found.", id));
         return new ResponseStatusException(HttpStatus.NOT_FOUND,exception.getMessage(), exception);
     }
+    public static ResponseStatusException create(String username) {
+        UserNotFoundException exception = new UserNotFoundException(String.format("User with username: %s not found.", username));
+        return new ResponseStatusException(HttpStatus.NOT_FOUND,exception.getMessage(), exception);
+    }
 }
