@@ -3,6 +3,7 @@ package lib.edu.libraryapp.controller;
 import lib.edu.libraryapp.controller.dto.book.CreateBookDto;
 import lib.edu.libraryapp.controller.dto.book.CreateBookResponseDto;
 import lib.edu.libraryapp.controller.dto.book.GetBookDto;
+import lib.edu.libraryapp.infrastructure.entity.BookEntity;
 import lib.edu.libraryapp.service.book.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,18 @@ public class BookController {
     public GetBookDto getOne(@PathVariable long id){
         return bookService.getOne(id);
     }
+    @GetMapping("/search")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<List<GetBookDto>> searchBooks(@RequestParam(required = false) String title,
+                                                        @RequestParam(required = false) String author,
+                                                        @RequestParam(required = false) String publisher,
+                                                        @RequestParam(required = false) Integer publicationYear) {
+        List<GetBookDto> books = bookService.searchBooks(title, author, publisher, publicationYear);
+        return ResponseEntity.ok(books);
+    }
+
+
+
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")

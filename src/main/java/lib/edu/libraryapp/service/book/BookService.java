@@ -45,6 +45,18 @@ public class BookService {
                 book.getPublicationYear(),
                 book.getAvailableCopies() > 0);
     }
+    public List<GetBookDto> searchBooks(String title, String author, String publisher, Integer publicationYear) {
+        var books = bookRepository.findByOptionalCriteria(title, author, publisher, publicationYear);
+        return  books.stream().map((book -> new GetBookDto(
+                book.getId(),
+                book.getIsbn(),
+                book.getTitle(),
+                book.getAuthor(),
+                book.getPublisher(),
+                book.getPublicationYear(),
+                book.getAvailableCopies() > 0))).collect(Collectors.toList());
+    }
+
     public CreateBookResponseDto create(CreateBookDto book){
         Optional<BookEntity> existingBook = bookRepository.findByIsbn(book.getIsbn());
         if (existingBook.isPresent()){
