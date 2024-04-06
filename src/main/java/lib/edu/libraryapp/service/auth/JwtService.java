@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,8 +21,6 @@ import java.util.function.Function;
  */
 @Service
 public class JwtService {
-
-    private long tokenLifetime = 1000 * 60 * 24;
 
     @Value("${token.signing.key}")
     private String  jwtSigningKey;
@@ -92,6 +89,7 @@ public class JwtService {
 
     private String generateToken(Map<String, Object> extraClaims, AuthEntity userDetails){
         extraClaims.put("role", userDetails.getRole());
+        long tokenLifetime = 1000 * 60 * 24;
         return Jwts.builder()
                 .claims(extraClaims)
                 .subject(userDetails.getUsername())

@@ -10,7 +10,6 @@ import lib.edu.libraryapp.infrastructure.repository.BookRepository;
 import lib.edu.libraryapp.service.book.error.BookAlreadyExistsException;
 import lib.edu.libraryapp.service.book.error.BookNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
