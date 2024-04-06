@@ -17,6 +17,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * The type Jwt service.
+ */
 @Service
 public class JwtService {
 
@@ -25,14 +28,33 @@ public class JwtService {
     @Value("${token.signing.key}")
     private String  jwtSigningKey;
 
+    /**
+     * Generate token string.
+     *
+     * @param userDetail the user detail
+     * @return the string
+     */
     public String generateToken(AuthEntity userDetail){
         return generateToken(new HashMap<>(), userDetail);
     }
+
+    /**
+     * Extract role user role.
+     *
+     * @param token the token
+     * @return the user role
+     */
     public UserRole extractRole(String token){
         String roleString = extractClaim(token, (claims)-> claims.get("role", String.class));
         return UserRole.valueOf(roleString);
     }
 
+    /**
+     * Is token valid boolean.
+     *
+     * @param token the token
+     * @return the boolean
+     */
     public boolean isTokenValid(String token){
         try {
             return !isTokenExpired(token);
@@ -41,6 +63,12 @@ public class JwtService {
         }
     }
 
+    /**
+     * Extract username string.
+     *
+     * @param token the token
+     * @return the string
+     */
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
     }

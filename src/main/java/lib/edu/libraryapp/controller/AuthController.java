@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * The type Auth controller.
+ */
 @RestController
 @RequestMapping("/api/auth")
 
@@ -23,11 +26,22 @@ public class AuthController {
 
     private final AuthService authService;
 
+    /**
+     * Instantiates a new Auth controller.
+     *
+     * @param authService the auth service
+     */
     @Autowired
     public AuthController(AuthService authService) {
         this.authService = authService;
     }
 
+    /**
+     * Register a new user.
+     *
+     * @param registerDto the register dto
+     * @return the response entity
+     */
     @PostMapping("/register")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<RegisterResponseDto> register(@Validated @RequestBody RegisterDto registerDto){
@@ -36,6 +50,12 @@ public class AuthController {
 
     }
 
+    /**
+     * Login user.
+     *
+     * @param loginDto the login dto
+     * @return the response entity
+     */
     @PostMapping("/login")
     @PreAuthorize("permitAll()")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto loginDto){

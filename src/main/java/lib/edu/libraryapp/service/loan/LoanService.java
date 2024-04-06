@@ -21,12 +21,23 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The type Loan service.
+ */
 @Service
 public class LoanService {
 
     private final LoanRepository loanRepository;
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
+
+    /**
+     * Instantiates a new Loan service.
+     *
+     * @param loanRepository the loan repository
+     * @param bookRepository the book repository
+     * @param userRepository the user repository
+     */
     @Autowired
     public LoanService(LoanRepository loanRepository, BookRepository bookRepository, UserRepository userRepository) {
         this.loanRepository = loanRepository;
@@ -34,6 +45,11 @@ public class LoanService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Get all list.
+     *
+     * @return the list
+     */
     public List<GetLoanDto> getAll(){
         var loans = loanRepository.findAll();
         return loans.stream().map((loanEntity -> new GetLoanDto(
@@ -46,6 +62,12 @@ public class LoanService {
         ))).collect(Collectors.toList());
     }
 
+    /**
+     * Get one get loan dto.
+     *
+     * @param id the id
+     * @return the get loan dto
+     */
     public GetLoanDto getOne(long id){
         var loanEntity = loanRepository.findById(id).orElseThrow(() -> LoanNotFoundException.create(id));
         return  new GetLoanDto(
@@ -57,6 +79,12 @@ public class LoanService {
                 loanEntity.getReturnDate());
     }
 
+    /**
+     * Begin loan begin loan response dto.
+     *
+     * @param loan the loan
+     * @return the begin loan response dto
+     */
     @Transactional
     public BeginLoanResponseDto beginLoan(BeginLoanDto loan){
         // Find the associated book and user entities
@@ -83,6 +111,12 @@ public class LoanService {
                 returnDueDate);
     }
 
+    /**
+     * End loan get loan dto.
+     *
+     * @param id the id
+     * @return the get loan dto
+     */
     public GetLoanDto endLoan(long id){
         var loanEntity = loanRepository.findById(id).orElseThrow(() -> LoanNotFoundException.create(id));
         if (loanEntity.getReturnDate() != null){

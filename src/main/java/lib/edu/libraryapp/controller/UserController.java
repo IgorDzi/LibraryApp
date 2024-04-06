@@ -11,27 +11,52 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * The type User controller.
+ */
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
     private final UserService userService;
 
+    /**
+     * Instantiates a new User controller.
+     *
+     * @param userService the user service
+     */
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
+    /**
+     * Gets all users.
+     *
+     * @return the all
+     */
     @GetMapping()
     public List<GetUserDto> getAll() {
         return userService.getAll();
     }
 
+    /**
+     * Gets one user.
+     *
+     * @param id the id
+     * @return the one
+     */
     @GetMapping("/{id}")
     public GetUserDto getOne(@PathVariable long id) {
         return userService.getOne(id);
     }
 
+    /**
+     * Delete user
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable long id) {

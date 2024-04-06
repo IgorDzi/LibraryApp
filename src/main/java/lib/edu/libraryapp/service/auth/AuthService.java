@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 
+/**
+ * The type Auth service.
+ */
 @Service
 public class AuthService {
 
@@ -29,7 +32,14 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
 
 
-
+    /**
+     * Instantiates a new Auth service.
+     *
+     * @param authRepository  the auth repository
+     * @param userRepository  the user repository
+     * @param jwtService      the jwt service
+     * @param passwordEncoder the password encoder
+     */
     public AuthService(AuthRepository authRepository, UserRepository userRepository, JwtService jwtService, PasswordEncoder passwordEncoder) {
         this.authRepository = authRepository;
         this.userRepository = userRepository;
@@ -37,6 +47,12 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Register register response dto.
+     *
+     * @param registerDto the register dto
+     * @return the register response dto
+     */
     public RegisterResponseDto register(RegisterDto registerDto){
         Optional<AuthEntity> existingAuth = authRepository.findByUsername(registerDto.getUsername());
         if (existingAuth.isPresent()) {
@@ -57,6 +73,12 @@ public class AuthService {
         return new RegisterResponseDto(authEntity.getUsername(), authEntity.getRole(), userEntity.getEmail(), userEntity.getId());
     }
 
+    /**
+     * Login login response dto.
+     *
+     * @param loginDto the login dto
+     * @return the login response dto
+     */
     public LoginResponseDto login(LoginDto loginDto) {
         AuthEntity authEntity = authRepository.findByUsername(loginDto.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
 

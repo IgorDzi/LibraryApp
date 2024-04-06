@@ -1,7 +1,7 @@
 package lib.edu.libraryapp.infrastructure.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 
 /**
