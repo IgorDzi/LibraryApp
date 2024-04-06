@@ -1,19 +1,22 @@
 package lib.edu.libraryapp.controller.dto.loan;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lib.edu.libraryapp.infrastructure.entity.BookEntity;
 import lib.edu.libraryapp.infrastructure.entity.UserEntity;
 
 public class BeginLoanDto {
-
+    @NotBlank(message = "Book is required")
     private BookEntity book;
+    @NotBlank(message = "User is required")
     private UserEntity user;
-    private String loanDate;
+
+    @NotNull(message = "Number of days is required")
     private int days;
 
-    public BeginLoanDto(BookEntity book, UserEntity user, String loanDate, int days) {
+    public BeginLoanDto(BookEntity book, UserEntity user, int days) {
         this.book = book;
         this.user = user;
-        this.loanDate = loanDate;
         this.days = days;
     }
 
@@ -34,14 +37,6 @@ public class BeginLoanDto {
 
     public void setUser(UserEntity user) {
         this.user = user;
-    }
-
-    public String getLoanDate() {
-        return loanDate;
-    }
-
-    public void setLoanDate(String loanDate) {
-        this.loanDate = loanDate;
     }
 
     public int getDays() {

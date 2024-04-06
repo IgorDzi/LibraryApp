@@ -17,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.crypto.Data;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,7 +71,7 @@ public class LoanService {
         LoanEntity loanEntity = new LoanEntity();
         loanEntity.setBook(book);
         loanEntity.setUser(user);
-        loanEntity.setLoanDate(loan.getLoanDate());
+        loanEntity.setLoanDate(LocalDate.now().toString());
         loanEntity.setDays(loan.getDays());
 
         LoanEntity newLoan = loanRepository.save(loanEntity);
