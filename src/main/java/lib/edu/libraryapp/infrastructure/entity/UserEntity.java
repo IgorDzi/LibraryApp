@@ -19,11 +19,11 @@ public class UserEntity {
     private long id;
 
     @Basic
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
 
     @Basic
-    @Column(name = "full_name")
+    @Column(name = "full_name", nullable = false)
     private String fullName;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
