@@ -1,10 +1,7 @@
 package lib.edu.libraryapp.controller;
 
 
-import lib.edu.libraryapp.controller.dto.auth.LoginDto;
-import lib.edu.libraryapp.controller.dto.auth.LoginResponseDto;
-import lib.edu.libraryapp.controller.dto.auth.RegisterDto;
-import lib.edu.libraryapp.controller.dto.auth.RegisterResponseDto;
+import lib.edu.libraryapp.controller.dto.auth.*;
 import lib.edu.libraryapp.service.auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -59,6 +56,16 @@ public class AuthController {
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto loginDto){
        LoginResponseDto responseDto = authService.login(loginDto);
        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/update-password")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<UpdatePasswordResponseDto> update(@RequestBody UpdatePasswordDto updateFrom){
+        UpdatePasswordResponseDto response = authService.updatePassword(updateFrom);
+        if (response.getSuccess()){
+            return new ResponseEntity<>(response,HttpStatus.OK);
+        } else
+            return new ResponseEntity<>(response,HttpStatus.NOT_MODIFIED) ;
     }
 
 

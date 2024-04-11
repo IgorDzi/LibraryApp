@@ -1,10 +1,7 @@
 package lib.edu.libraryapp.service.auth;
 
 
-import lib.edu.libraryapp.controller.dto.auth.LoginDto;
-import lib.edu.libraryapp.controller.dto.auth.LoginResponseDto;
-import lib.edu.libraryapp.controller.dto.auth.RegisterDto;
-import lib.edu.libraryapp.controller.dto.auth.RegisterResponseDto;
+import lib.edu.libraryapp.controller.dto.auth.*;
 import lib.edu.libraryapp.controller.dto.user.GetUserDto;
 import lib.edu.libraryapp.infrastructure.entity.AuthEntity;
 import lib.edu.libraryapp.infrastructure.entity.UserEntity;
@@ -49,6 +46,7 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
+
     /**
      * Register register response dto.
      *
@@ -73,6 +71,12 @@ public class AuthService {
 
        authRepository.save(authEntity);
         return new RegisterResponseDto(authEntity.getUsername(), authEntity.getRole(), userEntity.getEmail(), userEntity.getId());
+    }
+    public UpdatePasswordResponseDto updatePassword(UpdatePasswordDto updateForm){
+        AuthEntity user = authRepository.findByUsername(updateForm.getUsername()).orElseThrow(()->UserNotFoundException.create(updateForm.getUsername()));
+        user.setPassword(passwordEncoder.encode(updateForm.getPassword()));
+        authRepository.save(user);
+        return new UpdatePasswordResponseDto(user.getUsername(), user.getPassword().equals(updateForm.getPassword()));
     }
 
     /**
