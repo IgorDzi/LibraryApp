@@ -70,8 +70,15 @@ public class AuthService {
         authEntity.setUser(userEntity);
 
        authRepository.save(authEntity);
-        return new RegisterResponseDto(authEntity.getUsername(), authEntity.getRole(), userEntity.getEmail(), userEntity.getId());
+        return new RegisterResponseDto(authEntity.getUsername(), authEntity.getRole(), userEntity.getEmail(), userEntity.getFullName(), userEntity.getId());
     }
+
+    /**
+     * Update password update password response dto.
+     *
+     * @param updateForm the update form
+     * @return the update password response dto
+     */
     public UpdatePasswordResponseDto updatePassword(UpdatePasswordDto updateForm){
         AuthEntity user = authRepository.findByUsername(updateForm.getUsername()).orElseThrow(()->UserNotFoundException.create(updateForm.getUsername()));
         user.setPassword(passwordEncoder.encode(updateForm.getPassword()));

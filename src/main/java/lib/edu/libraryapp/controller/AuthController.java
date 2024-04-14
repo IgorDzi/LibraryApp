@@ -58,6 +58,12 @@ public class AuthController {
        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
+    /**
+     * Update response entity.
+     *
+     * @param updateFrom the update from
+     * @return the response entity
+     */
     @PostMapping("/update-password")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UpdatePasswordResponseDto> update(@RequestBody UpdatePasswordDto updateFrom){
