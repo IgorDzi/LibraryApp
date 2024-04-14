@@ -10,6 +10,7 @@ public class RegisterResponseDto {
     private String username;
     private UserRole role;
     private String email;
+    private String fullName;
     private long userId;
 
     /**
@@ -18,13 +19,33 @@ public class RegisterResponseDto {
      * @param username the username
      * @param role     the role
      * @param email    the email
+     * @param fullName the full name
      * @param userId   the user id
      */
-    public RegisterResponseDto(String username, UserRole role, String email, long userId) {
+    public RegisterResponseDto(String username, UserRole role, String email,String fullName, long userId) {
         this.username = username;
         this.role = role;
         this.email = email;
+        this.fullName = fullName;
         this.userId = userId;
+    }
+
+    /**
+     * Gets full name.
+     *
+     * @return the full name
+     */
+    public String getFullName() {
+        return fullName;
+    }
+
+    /**
+     * Sets full name.
+     *
+     * @param fullName the full name
+     */
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     /**
