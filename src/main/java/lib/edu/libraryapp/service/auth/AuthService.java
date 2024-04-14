@@ -2,7 +2,6 @@ package lib.edu.libraryapp.service.auth;
 
 
 import lib.edu.libraryapp.controller.dto.auth.*;
-import lib.edu.libraryapp.controller.dto.user.GetUserDto;
 import lib.edu.libraryapp.infrastructure.entity.AuthEntity;
 import lib.edu.libraryapp.infrastructure.entity.UserEntity;
 import lib.edu.libraryapp.infrastructure.repository.AuthRepository;
@@ -12,6 +11,7 @@ import lib.edu.libraryapp.service.auth.error.WrongUsernameOrPasswordException;
 import lib.edu.libraryapp.service.user.error.UserNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -79,11 +79,12 @@ public class AuthService {
      * @param updateForm the update form
      * @return the update password response dto
      */
+    @Transactional
     public UpdatePasswordResponseDto updatePassword(UpdatePasswordDto updateForm){
         AuthEntity user = authRepository.findByUsername(updateForm.getUsername()).orElseThrow(()->UserNotFoundException.create(updateForm.getUsername()));
         user.setPassword(passwordEncoder.encode(updateForm.getPassword()));
         authRepository.save(user);
-        return new UpdatePasswordResponseDto(user.getUsername(), user.getPassword().equals(updateForm.getPassword()));
+        return new UpdatePasswordResponseDto(user.getUsername(), true);
     }
 
     /**
