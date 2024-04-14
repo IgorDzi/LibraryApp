@@ -1,22 +1,24 @@
 package lib.edu.libraryapp.service.auth;
 
 
-import lib.edu.libraryapp.controller.dto.auth.LoginDto;
-import lib.edu.libraryapp.controller.dto.auth.LoginResponseDto;
-import lib.edu.libraryapp.controller.dto.auth.RegisterDto;
-import lib.edu.libraryapp.controller.dto.auth.RegisterResponseDto;
+import lib.edu.libraryapp.controller.dto.auth.*;
 import lib.edu.libraryapp.infrastructure.entity.AuthEntity;
 import lib.edu.libraryapp.infrastructure.entity.UserEntity;
 import lib.edu.libraryapp.infrastructure.repository.AuthRepository;
 import lib.edu.libraryapp.infrastructure.repository.UserRepository;
 import lib.edu.libraryapp.service.auth.error.UserAlreadyExistsException;
 import lib.edu.libraryapp.service.auth.error.WrongUsernameOrPasswordException;
+import lib.edu.libraryapp.service.user.error.UserNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 
+/**
+ * The type Auth service.
+ */
 @Service
 public class AuthService {
 
@@ -29,7 +31,14 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
 
 
-
+    /**
+     * Instantiates a new Auth service.
+     *
+     * @param authRepository  the auth repository
+     * @param userRepository  the user repository
+     * @param jwtService      the jwt service
+     * @param passwordEncoder the password encoder
+     */
     public AuthService(AuthRepository authRepository, UserRepository userRepository, JwtService jwtService, PasswordEncoder passwordEncoder) {
         this.authRepository = authRepository;
         this.userRepository = userRepository;
@@ -37,6 +46,13 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
+
+    /**
+     * Register register response dto.
+     *
+     * @param registerDto the register dto
+     * @return the register response dto
+     */
     public RegisterResponseDto register(RegisterDto registerDto){
         Optional<AuthEntity> existingAuth = authRepository.findByUsername(registerDto.getUsername());
         if (existingAuth.isPresent()) {
@@ -57,8 +73,28 @@ public class AuthService {
         return new RegisterResponseDto(authEntity.getUsername(), authEntity.getRole(), userEntity.getEmail(), userEntity.getFullName(), userEntity.getId());
     }
 
+    /**
+     * Update password update password response dto.
+     *
+     * @param updateForm the update form
+     * @return the update password response dto
+     */
+    @Transactional
+    public UpdatePasswordResponseDto updatePassword(UpdatePasswordDto updateForm){
+        AuthEntity user = authRepository.findByUsername(updateForm.getUsername()).orElseThrow(()->UserNotFoundException.create(updateForm.getUsername()));
+        user.setPassword(passwordEncoder.encode(updateForm.getPassword()));
+        authRepository.save(user);
+        return new UpdatePasswordResponseDto(user.getUsername(), true);
+    }
+
+    /**
+     * Login login response dto.
+     *
+     * @param loginDto the login dto
+     * @return the login response dto
+     */
     public LoginResponseDto login(LoginDto loginDto) {
-        AuthEntity authEntity = authRepository.findByUsername(loginDto.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+        AuthEntity authEntity = authRepository.findByUsername(loginDto.getUsername()).orElseThrow(WrongUsernameOrPasswordException::create);
 
         if (!passwordEncoder.matches(loginDto.getPassword(), authEntity.getPassword())) {
             throw WrongUsernameOrPasswordException.create();
@@ -67,5 +103,6 @@ public class AuthService {
             String token = jwtService.generateToken(authEntity);
             return new LoginResponseDto(token);
         }
+
     }
 

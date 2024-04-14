@@ -1,60 +1,34 @@
 package lib.edu.libraryapp.controller.dto.book;
 
 /**
- * The type Create book response dto.
+ * The type Search for book dto.
  */
-public class CreateBookResponseDto {
-    private long id;
+public class SearchForBookDto {
+
     private String isbn;
     private String title;
     private String author;
     private String publisher;
     private int publicationYear;
-    private int availableCopies;
+    private boolean isAvailable;
 
     /**
-     * Instantiates a new Create book response dto.
+     * Instantiates a new Search for book dto.
      *
-     * @param id              the id
      * @param isbn            the isbn
      * @param title           the title
      * @param author          the author
      * @param publisher       the publisher
      * @param publicationYear the publication year
-     * @param availableCopies the available copies
+     * @param isAvailable     the is available
      */
-    public CreateBookResponseDto(long id, String isbn, String title, String author, String publisher, int publicationYear, int availableCopies) {
-        this.id = id;
+    public SearchForBookDto(String isbn, String title, String author, String publisher, int publicationYear, boolean isAvailable) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.publisher = publisher;
         this.publicationYear = publicationYear;
-        this.availableCopies = availableCopies;
-    }
-
-    /**
-     * Instantiates a new Create book response dto.
-     */
-    public CreateBookResponseDto() {
-    }
-
-    /**
-     * Gets id.
-     *
-     * @return the id
-     */
-    public long getId() {
-        return id;
-    }
-
-    /**
-     * Sets id.
-     *
-     * @param id the id
-     */
-    public void setId(long id) {
-        this.id = id;
+        this.isAvailable = isAvailable;
     }
 
     /**
@@ -148,20 +122,20 @@ public class CreateBookResponseDto {
     }
 
     /**
-     * Gets available copies.
+     * Is available boolean.
      *
-     * @return the available copies
+     * @return the boolean
      */
-    public int getAvailableCopies() {
-        return availableCopies;
+    public boolean isAvailable() {
+        return isAvailable;
     }
 
     /**
-     * Sets available copies.
+     * Sets available.
      *
-     * @param availableCopies the available copies
+     * @param available the available
      */
-    public void setAvailableCopies(int availableCopies) {
-        this.availableCopies = availableCopies;
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 }

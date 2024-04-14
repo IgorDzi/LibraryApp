@@ -11,28 +11,47 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * The type Jwt service.
+ */
 @Service
 public class JwtService {
-
-    private long tokenLifetime = 1000 * 60 * 24;
 
     @Value("${token.signing.key}")
     private String  jwtSigningKey;
 
+    /**
+     * Generate token string.
+     *
+     * @param userDetail the user detail
+     * @return the string
+     */
     public String generateToken(AuthEntity userDetail){
         return generateToken(new HashMap<>(), userDetail);
     }
+
+    /**
+     * Extract role user role.
+     *
+     * @param token the token
+     * @return the user role
+     */
     public UserRole extractRole(String token){
         String roleString = extractClaim(token, (claims)-> claims.get("role", String.class));
         return UserRole.valueOf(roleString);
     }
 
+    /**
+     * Is token valid boolean.
+     *
+     * @param token the token
+     * @return the boolean
+     */
     public boolean isTokenValid(String token){
         try {
             return !isTokenExpired(token);
@@ -41,6 +60,12 @@ public class JwtService {
         }
     }
 
+    /**
+     * Extract username string.
+     *
+     * @param token the token
+     * @return the string
+     */
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
     }
@@ -64,6 +89,7 @@ public class JwtService {
 
     private String generateToken(Map<String, Object> extraClaims, AuthEntity userDetails){
         extraClaims.put("role", userDetails.getRole());
+        long tokenLifetime = 1000 * 60 * 24;
         return Jwts.builder()
                 .claims(extraClaims)
                 .subject(userDetails.getUsername())

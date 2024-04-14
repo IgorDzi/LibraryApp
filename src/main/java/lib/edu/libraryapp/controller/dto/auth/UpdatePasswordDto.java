@@ -1,32 +1,22 @@
 package lib.edu.libraryapp.controller.dto.auth;
 
-import jakarta.validation.constraints.NotBlank;
-
 /**
- * The type Login dto.
+ * The type Update password dto.
  */
-public class LoginDto {
-
-
+public class UpdatePasswordDto {
     private String username;
 
     private String password;
 
     /**
-     * Instantiates a new Login dto.
+     * Instantiates a new Update password dto.
      *
      * @param username the username
      * @param password the password
      */
-    public LoginDto(String username, String password) {
+    public UpdatePasswordDto(String username, String password) {
         this.username = username;
         this.password = password;
-    }
-
-    /**
-     * Instantiates a new Login dto.
-     */
-    public LoginDto() {
     }
 
     /**
@@ -65,3 +55,4 @@ public class LoginDto {
         this.password = password;
     }
 }
+
