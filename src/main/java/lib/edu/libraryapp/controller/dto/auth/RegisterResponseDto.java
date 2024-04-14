@@ -7,13 +7,24 @@ public class RegisterResponseDto {
     private String username;
     private UserRole role;
     private String email;
+    private String fullName;
     private long userId;
 
-    public RegisterResponseDto(String username, UserRole role, String email, long userId) {
+
+    public RegisterResponseDto(String username, UserRole role, String email,String fullName, long userId) {
         this.username = username;
         this.role = role;
         this.email = email;
+        this.fullName = fullName;
         this.userId = userId;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getUsername() {

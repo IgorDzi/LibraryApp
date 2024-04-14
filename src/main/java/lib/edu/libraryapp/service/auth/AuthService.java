@@ -44,6 +44,7 @@ public class AuthService {
         }
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(registerDto.getEmail());
+        userEntity.setFullName(registerDto.getFullName());
         userRepository.save(userEntity);
 
         AuthEntity authEntity = new AuthEntity();
@@ -53,7 +54,7 @@ public class AuthService {
         authEntity.setUser(userEntity);
 
        authRepository.save(authEntity);
-        return new RegisterResponseDto(authEntity.getUsername(), authEntity.getRole(), userEntity.getEmail(), userEntity.getId());
+        return new RegisterResponseDto(authEntity.getUsername(), authEntity.getRole(), userEntity.getEmail(), userEntity.getFullName(), userEntity.getId());
     }
 
     public LoginResponseDto login(LoginDto loginDto) {

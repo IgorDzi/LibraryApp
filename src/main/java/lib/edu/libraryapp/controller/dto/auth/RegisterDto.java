@@ -14,14 +14,25 @@ public class RegisterDto {
 
     private String email;
 
-    public RegisterDto(String username, String password, UserRole role, String email) {
+    private String fullName;
+
+    public RegisterDto(String username, String password, UserRole role, String email, String fullName) {
         this.username = username;
         this.password = password;
         this.role = role;
         this.email = email;
+        this.fullName = fullName;
     }
 
     public RegisterDto() {
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getUsername() {
