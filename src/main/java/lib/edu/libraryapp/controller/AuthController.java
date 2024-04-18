@@ -52,7 +52,7 @@ public class AuthController {
      * @return the response entity
      */
     @PostMapping("/login")
-    @PreAuthorize("hasAnyRole('ADMIN', 'READER')")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto loginDto){
        LoginResponseDto responseDto = authService.login(loginDto);
        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
