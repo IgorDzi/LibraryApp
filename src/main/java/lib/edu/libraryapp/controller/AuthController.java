@@ -10,6 +10,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 
 /**
  * The type Auth controller.
@@ -52,10 +54,10 @@ public class AuthController {
      * @return the response entity
      */
     @PostMapping("/login")
-    @PreAuthorize("hasAnyRole('ADMIN', 'READER')")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto loginDto){
        LoginResponseDto responseDto = authService.login(loginDto);
-       return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
+       return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     /**
@@ -73,6 +75,24 @@ public class AuthController {
         } else
             return new ResponseEntity<>(response,HttpStatus.NOT_MODIFIED) ;
     }
+    @GetMapping("/get-role")
+    @PreAuthorize("hasAnyRole('ADMIN', 'READER')")
+    public ResponseEntity<String> getRole(Principal principal) {
+        String userRole = authService.getRole(principal.getName());
+        return new ResponseEntity<>(userRole, HttpStatus.OK);
+    }
 
+    @GetMapping("/get-username")
+    @PreAuthorize("hasAnyRole('ADMIN', 'READER')")
+    public ResponseEntity<String> getUsernameByUserId(@RequestParam long id) {
+        String username = authService.getUsername(id);
+        return new ResponseEntity<>(username, HttpStatus.OK);
+    }
 
+    @GetMapping("/get-role-by-id")
+    @PreAuthorize("hasAnyRole('ADMIN', 'READER')")
+    public ResponseEntity<String> getRoleByUserId(@RequestParam long id) {
+        String userRole = authService.getRoleById(id);
+        return new ResponseEntity<>(userRole, HttpStatus.OK);
+    }
 }

@@ -104,5 +104,28 @@ public class AuthService {
             return new LoginResponseDto(token);
         }
 
+    /**
+     * Get role string.
+     *
+     * @param username the username
+     * @return the string
+     */
+    public String getRole(String username) {
+        AuthEntity authEntity = authRepository.findByUsername(username).orElseThrow(() -> UserNotFoundException.create(username));
+        return authEntity.getRole().toString();
     }
+
+    public String getUsername(long userId) {
+        UserEntity user =  userRepository.findById(userId).orElseThrow(()->UserNotFoundException.create(userId));
+        AuthEntity authEntity = authRepository.findByUser(user).orElseThrow(()->UserNotFoundException.create(userId));
+        return authEntity.getUsername();
+    }
+
+    public String getRoleById(long userId) {
+        UserEntity user =  userRepository.findById(userId).orElseThrow(()->UserNotFoundException.create(userId));
+        AuthEntity authEntity = authRepository.findByUser(user).orElseThrow(()->UserNotFoundException.create(userId));
+        return authEntity.getRole().toString();
+    }
+}
+
 

@@ -10,9 +10,9 @@ import lib.edu.libraryapp.infrastructure.entity.UserEntity;
  */
 public class BeginLoanDto {
     @NotBlank(message = "Book is required")
-    private BookEntity book;
+    private long book;
     @NotBlank(message = "User is required")
-    private UserEntity user;
+    private long user;
 
     @NotNull(message = "Number of days is required")
     private int days;
@@ -24,7 +24,7 @@ public class BeginLoanDto {
      * @param user the user
      * @param days the days
      */
-    public BeginLoanDto(BookEntity book, UserEntity user, int days) {
+    public BeginLoanDto(long book, long user, int days) {
         this.book = book;
         this.user = user;
         this.days = days;
@@ -41,7 +41,7 @@ public class BeginLoanDto {
      *
      * @return the book
      */
-    public BookEntity getBook() {
+    public long getBook() {
         return book;
     }
 
@@ -50,7 +50,7 @@ public class BeginLoanDto {
      *
      * @param book the book
      */
-    public void setBook(BookEntity book) {
+    public void setBook(long book) {
         this.book = book;
     }
 
@@ -59,7 +59,7 @@ public class BeginLoanDto {
      *
      * @return the user
      */
-    public UserEntity getUser() {
+    public long getUser() {
         return user;
     }
 
@@ -68,7 +68,7 @@ public class BeginLoanDto {
      *
      * @param user the user
      */
-    public void setUser(UserEntity user) {
+    public void setUser(long user) {
         this.user = user;
     }
 

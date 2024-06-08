@@ -1,6 +1,7 @@
 package lib.edu.libraryapp.infrastructure.repository;
 
 import lib.edu.libraryapp.infrastructure.entity.AuthEntity;
+import lib.edu.libraryapp.infrastructure.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,4 +19,5 @@ public interface AuthRepository extends JpaRepository<AuthEntity, Long> {
      * @return the optional
      */
     Optional<AuthEntity> findByUsername(String username);
+    Optional<AuthEntity> findByUser(UserEntity user);
 }

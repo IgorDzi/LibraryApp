@@ -84,7 +84,7 @@ public class LoanController {
      * @return the list of user loans
      */
     @GetMapping("/me")
-    @PreAuthorize("hasAnyRole('ADMIN', 'READER')")
+    @PreAuthorize("hasAnyRole('READER')")
     public List<GetLoanDto> getUserLoans(Principal principal){
         String username = principal.getName();
         return loanService.getUserLoans(username);

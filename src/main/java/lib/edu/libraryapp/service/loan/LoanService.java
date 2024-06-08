@@ -110,12 +110,12 @@ public class LoanService {
      */
     @Transactional
     public BeginLoanResponseDto beginLoan(BeginLoanDto loan){
-        // Find the associated book and user entities
-        BookEntity book = bookRepository.findById(loan.getBook().getId())
-                .orElseThrow(() -> BookNotFoundException.create(loan.getBook().getId()));
 
-        UserEntity user = userRepository.findById(loan.getUser().getId())
-                .orElseThrow(() -> UserNotFoundException.create(loan.getUser().getId()));
+        BookEntity book = bookRepository.findById(loan.getBook())
+                .orElseThrow(() -> BookNotFoundException.create(loan.getBook()));
+
+        UserEntity user = userRepository.findById(loan.getUser())
+                .orElseThrow(() -> UserNotFoundException.create(loan.getUser()));
 
         LoanEntity loanEntity = new LoanEntity();
         loanEntity.setBook(book);
