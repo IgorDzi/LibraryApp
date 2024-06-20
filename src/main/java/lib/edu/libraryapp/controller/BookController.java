@@ -61,7 +61,7 @@ public class BookController {
      * @param search the search criteria
      * @return the response entity
      */
-    @GetMapping("/search")
+    @PostMapping("/search")
     @PreAuthorize("hasAnyRole('ADMIN', 'READER')")
     public ResponseEntity<List<GetBookDto>> searchBooks(@RequestBody SearchForBookDto search) {
         List<GetBookDto> books = bookService.searchBooks(search);
